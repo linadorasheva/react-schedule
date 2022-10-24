@@ -1,39 +1,43 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
-import { authSlice } from '../../store/redusers/AuthSlice';
+import { authActionCreators } from '../../store/ActionCreators';
 
 const Navbar = () => {
-  const { isAuth } = useTypedSelector((state) => state.authReducer);
-  const { authReducer } = authSlice.actions;
+  const { isAuth, user } = useTypedSelector((state) => state.authReducer);
   const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
 
   const logout = (): void => {
-    dispatch(authReducer(false));
+    dispatch(authActionCreators.logoutUser());
+    navigate('/login', { replace: true });
   };
 
-  if (!isAuth) {
+  if (!isAuth && !localStorage.getItem('auth')) {
     return (
-      <ul className="navigation__list">
-        <li className="navigation__item">
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive
-                ? 'navigation__link navigation__link--active'
-                : 'navigation__link'
-            }
-            end
-          >
-            Login
-          </NavLink>
-        </li>
-      </ul>
+      <nav className="navigation container">
+        <ul className="navigation__list">
+          <li className="navigation__item">
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive
+                  ? 'navigation__link navigation__link--active'
+                  : 'navigation__link'
+              }
+              end
+            >
+              Login
+            </NavLink>
+          </li>
+        </ul>
+      </nav>
     );
   }
 
   return (
     <nav className="navigation container">
+      <div className="navigation__username">{user.username}</div>
       <ul className="navigation__list">
         <li className="navigation__item">
           <button
