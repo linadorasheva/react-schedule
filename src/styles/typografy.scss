@@ -1,6 +1,7 @@
 .page {
   &__title {
     margin-bottom: 32px;
+    text-align: center;
     @include font(24, 32);
 
     @media #{$lg-and-up} {

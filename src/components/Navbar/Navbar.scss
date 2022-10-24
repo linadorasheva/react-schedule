@@ -16,6 +16,15 @@
   margin-right: 0;
 }
 
+.navigation__username {
+  align-self: center;
+  margin-right: auto;
+  color: $white;
+  text-transform: capitalize;
+  font-weight: 600;
+  cursor: default;
+}
+
 .navigation__link {
   display: flex;
   align-items: center;
