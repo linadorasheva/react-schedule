@@ -1,0 +1,45 @@
+.navigation {
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.navigation__list {
+  display: flex;
+}
+
+.navigation__item {
+  margin-left: -1px;
+}
+
+.navigation__item:last-child {
+  margin-right: 0;
+}
+
+.navigation__link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 12px;
+  color: $white;
+  font-size: 16px;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    color: $tomato;
+  }
+
+  &--logout {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+.navigation__link--active {
+  background-color: $tomato;
+  color: $white;
+  cursor: default;
+  pointer-events: none;
+}

@@ -1,0 +1,40 @@
+.layout {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+  height: 100%;
+
+	&__header {
+    display: flex;
+    justify-content: flex-end;
+    height: 64px;
+    background-color: $soft-black;
+	}
+
+  &__content {
+    flex-grow: 1;
+  }
+} 
+
+.container {
+  position: relative;
+  width: 100%;
+	padding: 0 16px;
+  margin: 0 auto;
+
+  @media #{$md-and-up} {
+    max-width: 720px;
+  }
+
+  @media #{$lg-and-up} {
+    max-width: 940px;
+  }
+
+  @media #{$xl-and-up} {
+    max-width: 1192px;
+  }
+
+  @media #{$xxl-and-up} {
+    max-width: 1276px;
+  }
+}
