@@ -1,6 +1,7 @@
 import { IUser } from './user';
 
 export interface IEvent {
+  id: string;
   author: string;
   guest?: string;
   date: string;
@@ -18,7 +19,7 @@ export interface IEventsInitialState {
 }
 
 export interface IEventCalendarProps {
-  events: IEvent;
+  events: IEvent[];
 }
 
 export interface IEventFormProps {

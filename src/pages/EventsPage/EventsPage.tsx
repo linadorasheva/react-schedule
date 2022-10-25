@@ -9,7 +9,14 @@ import { IEvent } from '../../types/event';
 const EventsPage: FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useTypedDispatch();
-  const { guests } = useTypedSelector((state) => state.eventReducer);
+  const { guests, events } = useTypedSelector((state) => state.eventReducer);
+  const { user } = useTypedSelector((state) => state.authReducer);
+
+  useEffect(() => {
+    if (user.username) {
+      dispatch(eventActionCreators.fetchEvents(user.username));
+    }
+  }, [user.username]);
 
   useEffect(() => {
     dispatch(eventActionCreators.fetchGuests());
@@ -24,7 +31,7 @@ const EventsPage: FC = () => {
     <div className="events-page page">
       <h1 className="page__title">Events page</h1>
       <div className="events-page__content">
-        <EventCalendar events={{} as IEvent} />
+        <EventCalendar events={events} />
         <button
           onClick={() => setIsModalVisible(true)}
           type="button"

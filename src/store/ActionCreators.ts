@@ -23,8 +23,8 @@ export const authActionCreators = {
           if (mockUser?.username) {
             localStorage.setItem('auth', 'true');
             localStorage.setItem('username', mockUser.username);
-            dispatch(authSlice.actions.authUser(true));
             dispatch(authSlice.actions.setUser(mockUser));
+            dispatch(authSlice.actions.authUser(true));
           } else {
             dispatch(
               authSlice.actions.setError(
@@ -71,6 +71,23 @@ export const eventActionCreators = {
       data.push(event);
       dispatch(eventSlice.actions.setEvents(data));
       localStorage.setItem('events', JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchEvents: (currentUser: string) => async (dispatch: AppDispatch) => {
+    try {
+      const events = localStorage.getItem('events') || '[]';
+      const data: IEvent[] = JSON.parse(events) as IEvent[];
+      const currentUserEvents = data
+        .map((event) => ({
+          ...event,
+          id: nanoid(),
+        }))
+        .filter(
+          (event) => event.author === currentUser || event.guest === currentUser
+        );
+      dispatch(eventSlice.actions.setEvents(currentUserEvents));
     } catch (error) {
       console.error(error);
     }
