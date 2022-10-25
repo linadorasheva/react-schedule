@@ -13,6 +13,7 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
     author: '',
     date: '',
     guest: '',
+    id: '',
   } as IEvent);
 
   const { user } = useTypedSelector((state) => state.authReducer);
@@ -69,6 +70,9 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
 
       <Form.Item label="Гость" name="guest">
         <Select onChange={(guest: string) => setEvent({ ...event, guest })}>
+          <Select.Option key="default-option" value="none">
+            нет
+          </Select.Option>
           {guests.map((guest) => {
             return (
               <Select.Option key={guest.id} value={guest.username}>
