@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
-const LoginPage = () => {
+const LoginPage: FC = () => {
   return (
     <div className="login-page page">
       <h1 className="page__title">Login page</h1>

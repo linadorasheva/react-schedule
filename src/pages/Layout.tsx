@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Navbar from '../components/Navbar/Navbar';
 
-const LayoutPage = () => {
+const LayoutPage: FC = () => {
   return (
     <div className="layout">
       <header className="layout__header">

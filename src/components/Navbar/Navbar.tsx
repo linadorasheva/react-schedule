@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { authActionCreators } from '../../store/ActionCreators';
 
-const Navbar = () => {
+const Navbar: FC = () => {
   const { isAuth, user } = useTypedSelector((state) => state.authReducer);
   const dispatch = useTypedDispatch();
   const navigate = useNavigate();

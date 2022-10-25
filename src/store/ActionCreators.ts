@@ -1,9 +1,11 @@
-import axios from 'axios';
+import { nanoid } from '@reduxjs/toolkit';
+import UserService from '../api/UserService';
+import { IEvent, IGuest } from '../types/event';
 import { IUser } from '../types/user';
+import { delay } from '../utils/common';
 import { AppDispatch } from './index';
 import { authSlice } from './reducers/AuthSlice';
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { eventSlice } from './reducers/EventSlice';
 
 export const authActionCreators = {
   loginUser:
@@ -12,9 +14,9 @@ export const authActionCreators = {
         dispatch(authSlice.actions.setIsLoading(true));
 
         delay(2000).then(async () => {
-          const res = await axios.get<IUser[]>('./mockUsers.json');
+          const response = await UserService.getUsers();
 
-          const mockUser = res.data.find(
+          const mockUser = response.data.find(
             (user) => user.username === username && user.password === password
           );
 
@@ -43,5 +45,34 @@ export const authActionCreators = {
     localStorage.removeItem('username');
     dispatch(authSlice.actions.authUser(false));
     dispatch(authSlice.actions.setUser({} as IUser));
+  },
+};
+
+export const eventActionCreators = {
+  fetchGuests: () => async (dispatch: AppDispatch) => {
+    try {
+      delay(2000).then(async () => {
+        const response = await UserService.getUsers();
+        const extendedGuests: IGuest[] = response.data.map((item) => ({
+          ...item,
+          id: nanoid(),
+        }));
+
+        dispatch(eventSlice.actions.setGuests(extendedGuests));
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  createEvent: (event: IEvent) => async (dispatch: AppDispatch) => {
+    try {
+      const events = localStorage.getItem('events') || '[]';
+      const data: IEvent[] = JSON.parse(events) as IEvent[];
+      data.push(event);
+      dispatch(eventSlice.actions.setEvents(data));
+      localStorage.setItem('events', JSON.stringify(data));
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
