@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IInitialState } from '../../types/auth';
+import { IAuthInitialState } from '../../types/auth';
 import { IUser } from '../../types/user';
 
-const initialState: IInitialState = {
+const initialState: IAuthInitialState = {
   isAuth: false,
   user: {} as IUser,
   isLoading: false,
@@ -13,18 +13,18 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    authUser(state: IInitialState, action: PayloadAction<boolean>) {
+    authUser(state: IAuthInitialState, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
       state.isLoading = false;
     },
-    setUser(state: IInitialState, action: PayloadAction<IUser>) {
+    setUser(state: IAuthInitialState, action: PayloadAction<IUser>) {
       state.user = action.payload;
     },
-    setError(state: IInitialState, action: PayloadAction<string>) {
+    setError(state: IAuthInitialState, action: PayloadAction<string>) {
       state.error = action.payload;
       state.isLoading = false;
     },
-    setIsLoading(state: IInitialState, action: PayloadAction<boolean>) {
+    setIsLoading(state: IAuthInitialState, action: PayloadAction<boolean>) {
       state.isLoading = action.payload;
     },
   },

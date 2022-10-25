@@ -1,11 +1,11 @@
 import { Button, Form, Input } from 'antd';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { authActionCreators } from '../../store/ActionCreators';
 import { formRules } from '../../utils/formRules';
 
-const LoginForm = () => {
+const LoginForm: FC = () => {
   const { isAuth, error, isLoading } = useTypedSelector(
     (state) => state.authReducer
   );
