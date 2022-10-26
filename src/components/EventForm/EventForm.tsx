@@ -16,6 +16,7 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
   } as IEvent);
 
   const { user } = useTypedSelector((state) => state.authReducer);
+  const [form] = Form.useForm();
 
   const selectDate = (date: Moment | null): void => {
     if (date) {
@@ -25,6 +26,14 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
 
   const submitForm = () => {
     submit({ ...event, author: user.username });
+    setEvent({
+      title: '',
+      description: '',
+      author: '',
+      date: '',
+      guest: '',
+    });
+    form.resetFields();
   };
 
   return (
@@ -34,6 +43,7 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
       wrapperCol={{ span: 16 }}
       onFinish={submitForm}
       autoComplete="off"
+      form={form}
     >
       <Form.Item
         label="Название события"
