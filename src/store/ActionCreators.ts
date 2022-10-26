@@ -79,14 +79,9 @@ export const eventActionCreators = {
     try {
       const events = localStorage.getItem('events') || '[]';
       const data: IEvent[] = JSON.parse(events) as IEvent[];
-      const currentUserEvents = data
-        .map((event) => ({
-          ...event,
-          id: nanoid(),
-        }))
-        .filter(
-          (event) => event.author === currentUser || event.guest === currentUser
-        );
+      const currentUserEvents = data.filter(
+        (event) => event.author === currentUser || event.guest === currentUser
+      );
       dispatch(eventSlice.actions.setEvents(currentUserEvents));
     } catch (error) {
       console.error(error);

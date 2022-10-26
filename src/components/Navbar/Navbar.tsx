@@ -13,7 +13,7 @@ const Navbar: FC = () => {
     navigate('/login', { replace: true });
   };
 
-  if (!isAuth && !localStorage.getItem('auth')) {
+  if (!isAuth) {
     return (
       <nav className="navigation container">
         <ul className="navigation__list">

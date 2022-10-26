@@ -13,7 +13,6 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
     author: '',
     date: '',
     guest: '',
-    id: '',
   } as IEvent);
 
   const { user } = useTypedSelector((state) => state.authReducer);
@@ -65,7 +64,10 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
         name="date"
         rules={[formRules.required()]}
       >
-        <DatePicker onChange={(date) => selectDate(date)} />
+        <DatePicker
+          disabledDate={formRules.disabledDates()}
+          onChange={(date) => selectDate(date)}
+        />
       </Form.Item>
 
       <Form.Item label="Гость" name="guest">
