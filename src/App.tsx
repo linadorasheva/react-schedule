@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 
 import LayoutPage from './pages/Layout';
 import LoginPage from './pages/LoginPage/LoginPage';
@@ -13,6 +13,7 @@ import { useTypedDispatch } from './hooks/redux';
 const App: FC = () => {
   const { setUser, authUser } = authSlice.actions;
   const dispatch = useTypedDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem('auth')) {
@@ -20,6 +21,8 @@ const App: FC = () => {
         setUser({ username: localStorage.getItem('username') || '' } as IUser)
       );
       dispatch(authUser(true));
+    } else {
+      navigate('/login', { replace: true });
     }
   }, []);
 
