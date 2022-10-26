@@ -10,6 +10,7 @@
 
 @import 'antd/dist/antd.css';
 @import '../components/Navbar/Navbar.scss';
+@import '../components/EventContent/EventContent.scss';
 
 html,
 body {
@@ -51,7 +52,7 @@ p {
 }
 
 button:focus-visible {
-  outline:none;
+  outline: none;
 }
 
 #root {

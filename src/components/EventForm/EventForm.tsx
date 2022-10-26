@@ -2,7 +2,12 @@ import { Button, DatePicker, Form, Input, Select } from 'antd';
 import { Moment } from 'moment';
 import React, { FC, useState } from 'react';
 import { useTypedSelector } from '../../hooks/redux';
-import { IEvent, IEventFormProps } from '../../types/event';
+import {
+  EventStatusEnum,
+  EventStatusNamesEnum,
+  IEvent,
+  IEventFormProps,
+} from '../../types/event';
 import { formatDate } from '../../utils/date';
 import { formRules } from '../../utils/formRules';
 
@@ -24,6 +29,17 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
     }
   };
 
+  const buildSelectOptionsMap = (): Record<EventStatusEnum, string> => {
+    return {
+      [EventStatusEnum.default]: EventStatusNamesEnum.default,
+      [EventStatusEnum.warning]: EventStatusNamesEnum.warning,
+      [EventStatusEnum.error]: EventStatusNamesEnum.error,
+      [EventStatusEnum.success]: EventStatusNamesEnum.success,
+    };
+  };
+
+  const selectOptionsMap = buildSelectOptionsMap();
+
   const submitForm = () => {
     submit({ ...event, author: user.username });
     setEvent({
@@ -32,6 +48,7 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
       author: '',
       date: '',
       guest: '',
+      status: EventStatusEnum.default,
     });
     form.resetFields();
   };
@@ -70,6 +87,22 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
       </Form.Item>
 
       <Form.Item
+        label="Статус события"
+        name="status"
+        rules={[formRules.required()]}
+      >
+        <Select onChange={(status) => setEvent({ ...event, status })}>
+          {Object.values(EventStatusEnum).map((item, index) => {
+            return (
+              <Select.Option key={index} value={item}>
+                {selectOptionsMap[item]}
+              </Select.Option>
+            );
+          })}
+        </Select>
+      </Form.Item>
+
+      <Form.Item
         label="Дата события"
         name="date"
         rules={[formRules.required()]}
@@ -82,7 +115,7 @@ const EventForm: FC<IEventFormProps> = ({ guests, submit }) => {
 
       <Form.Item label="Гость" name="guest">
         <Select onChange={(guest: string) => setEvent({ ...event, guest })}>
-          <Select.Option key="default-option" value="none">
+          <Select.Option key="default-option" value="Нет">
             нет
           </Select.Option>
           {guests.map((guest) => {

@@ -1,8 +1,9 @@
-import { Badge, Calendar } from 'antd';
+import { Badge, Calendar, Popover } from 'antd';
 import { Moment } from 'moment';
 import React, { FC } from 'react';
 import { IEventCalendarProps } from '../../types/event';
 import { formatDate } from '../../utils/date';
+import EventContent from '../EventContent/EventContent';
 
 const EventCalendar: FC<IEventCalendarProps> = ({ events }) => {
   const dateCellRender = (value: Moment) => {
@@ -14,9 +15,20 @@ const EventCalendar: FC<IEventCalendarProps> = ({ events }) => {
     return (
       <ul className="events">
         {currentDateEvents.map((event, index) => (
-          <li key={index}>
-            <Badge status={'default'} text={event.title} />
-          </li>
+          <Popover
+            key={index}
+            content={<EventContent event={event} />}
+            title={`Событие: ${event.title}`}
+            trigger={['click', 'hover']}
+          >
+            <li style={{ margin: '0 0 8px 0' }}>
+              <Badge
+                status={event.status}
+                text={event.title}
+                title={event.description}
+              />
+            </li>
+          </Popover>
         ))}
       </ul>
     );
