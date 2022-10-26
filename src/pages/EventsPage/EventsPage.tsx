@@ -1,13 +1,14 @@
-import { Modal } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import EventCalendar from '../../components/EventCalendar/EventCalendar';
 import EventForm from '../../components/EventForm/EventForm';
+import CustomModal from '../../components/Modal/CustomModal';
 import { useTypedDispatch, useTypedSelector } from '../../hooks/redux';
 import { eventActionCreators } from '../../store/ActionCreators';
 import { IEvent } from '../../types/event';
 
 const EventsPage: FC = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalAddEventVisible, setIsModalAddEventVisible] = useState(false);
+
   const dispatch = useTypedDispatch();
   const { guests, events } = useTypedSelector((state) => state.eventReducer);
   const { user } = useTypedSelector((state) => state.authReducer);
@@ -24,7 +25,7 @@ const EventsPage: FC = () => {
 
   const addNewEvent = (event: IEvent) => {
     dispatch(eventActionCreators.createEvent(event));
-    setIsModalVisible(false);
+    setIsModalAddEventVisible(false);
   };
 
   return (
@@ -33,20 +34,20 @@ const EventsPage: FC = () => {
       <div className="events-page__content">
         <EventCalendar events={events} />
         <button
-          onClick={() => setIsModalVisible(true)}
+          onClick={() => setIsModalAddEventVisible(true)}
           type="button"
           className="events-page__add-event"
         >
           <span className="events-page__btn-text">New</span>
         </button>
-        <Modal
+        <CustomModal
           title="Добавить событие"
-          open={isModalVisible}
-          onCancel={() => setIsModalVisible(false)}
+          open={isModalAddEventVisible}
+          onCancel={() => setIsModalAddEventVisible(false)}
           footer={null}
         >
           <EventForm guests={guests} submit={(event) => addNewEvent(event)} />
-        </Modal>
+        </CustomModal>
       </div>
     </div>
   );
